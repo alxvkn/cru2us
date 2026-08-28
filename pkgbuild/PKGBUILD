@@ -1,0 +1,34 @@
+# shellcheck disable=all
+pkgname=cru2us-git
+pkgver=r3.e557c45
+pkgrel=1
+pkgdesc='translate text typed in йцукен to qwerty and the other way around'
+arch=('x86_64')
+url='https://github.com/alxvkn/cru2us'
+license=('Unknown')
+depends=('glibc')
+makedepends=('git')
+conflicts=('cru2us')
+provides=('cru2us' 'cus2ru')
+
+options=('!debug' 'strip')
+
+source=("$pkgname::git+file://$startdir/..")
+sha256sums=('SKIP')
+
+pkgver() {
+    cd "$pkgname"
+    printf "r%s.%s" \
+        "$(git rev-list --count HEAD -- ':!pkgbuild')" \
+        "$(git log -1 --format=%h --abbrev=7 -- ':!pkgbuild')"
+}
+
+build() {
+    cd "$pkgname"
+    make
+}
+
+package() {
+    cd "$pkgname"
+    make install PREFIX=/usr DESTDIR="$pkgdir"
+}
