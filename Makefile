@@ -1,3 +1,5 @@
+CFLAGS += -MMD
+
 PREFIX ?= ~/.local
 BINDIR = $(PREFIX)/bin
 
@@ -16,7 +18,9 @@ cru2us: cru2us.o layouts.o
 
 cus2ru: cus2ru.o layouts.o
 
+-include *.d
+
 clean:
-	$(RM) *.o $(BINARIES)
+	$(RM) *.d *.o $(BINARIES)
 
 .PHONY: clean all install uninstall
